@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+from environ import Env
+
+env = Env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env.read_env(BASE_DIR / ".env-dir/.env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -26,7 +31,6 @@ SECRET_KEY = "django-insecure-1+v$8--_#u^$q*9#8f#z*y^=fk^nieg6!qo)%_(tk83l^dygp@
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -69,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "s3_dropbox_sync.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -79,7 +82,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -99,7 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -111,7 +112,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -121,3 +121,27 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#####################
+# Django Storages 👇 #
+#####################
+
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="ap-south-1")
+
+DROPBOX_OAUTH2_TOKEN = env("DROPBOX_OAUTH2_TOKEN")
+DROPBOX_OAUTH2_REFRESH_TOKEN = env("DROPBOX_OAUTH2_REFRESH_TOKEN")
+DROPBOX_APP_KEY = env("DROPBOX_APP_KEY")
+DROPBOX_APP_SECRET = env("DROPBOX_APP_SECRET")
+
+
+#####################
+# Sync App Settings #
+#####################
+
+SYNC_S3_BUCKET = env("SYNC_S3_BUCKET", default=AWS_STORAGE_BUCKET_NAME)
+SYNC_S3_DIR = env("SYNC_S3_DIR", default="/")
+SYNC_DROPBOX_DIR = env("SYNC_DROPBOX_DIR", default="upload-dir/")
+SYNC_TARGET_FILE_NAME = env("SYNC_TARGET_FILE_NAME", default="backup.tar.gz")
