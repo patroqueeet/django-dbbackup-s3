@@ -61,8 +61,10 @@ class SyncS3Dropbox:
         self.dropbox_storage.save(name=self._get_target_file_name(), content=file_obj)
 
     def sync(self):
-        logger.debug("Generating backup file")
+        start = timezone.now()
+        logger.info("Generating backup file")
         tar_file = self.generate_backup()
-        logger.debug("Writing backup file to storage")
+        logger.info("Writing backup file to storage")
         self.write_to_storage(tar_file)
-        logger.debug("Backup file written to storage")
+        duration = timezone.now() - start
+        logger.info(f"Backup file written to storage {duration}")
