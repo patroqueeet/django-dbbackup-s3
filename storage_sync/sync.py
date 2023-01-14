@@ -1,23 +1,27 @@
+import logging
 import os
 import tarfile
 
 from dbbackup import utils as dbbackup_utils
-from django.conf import settings
 from django.utils import timezone
 from storages.backends.dropbox import DropBoxStorage
 from storages.backends.s3boto3 import S3Boto3Storage
+
+from storage_sync import settings as sync_settings
+
+logger = logging.getLogger(__name__)
 
 
 class SyncS3Dropbox:
     def __init__(
         self,
-        s3_dir_path: str = settings.SYNC_S3_DIR,
-        dropbox_dir: str = settings.SYNC_DROPBOX_DIR,
-        s3_bucket: str = settings.SYNC_S3_BUCKET,
-        target_file_name: str = settings.SYNC_TARGET_FILE_NAME,
+        s3_dir: str = sync_settings.S3_DIR,
+        dropbox_dir: str = sync_settings.DROPBOX_DIR,
+        s3_bucket: str = sync_settings.S3_BUCKET,
+        target_file_name: str = sync_settings.TARGET_FILE_NAME,
     ):
         self.s3_bucket = s3_bucket
-        self.s3_dir_path = s3_dir_path
+        self.s3_dir = s3_dir
         self.dropbox_dir = dropbox_dir
         self.target_file_name = target_file_name
 
@@ -25,7 +29,7 @@ class SyncS3Dropbox:
         self.dropbox_storage = DropBoxStorage()
 
     def _get_recursive_files(self):
-        path = self.s3_dir_path
+        path = self.s3_dir
         dirs = [path]
         while dirs:
             path = dirs.pop()
@@ -54,9 +58,12 @@ class SyncS3Dropbox:
     def generate_backup(self):
         return self._create_tar_file_object()
 
-    def write_to_storage(self, file, path):
-        self.s3_storage.write_file(file, path)
+    def write_to_storage(self, file_obj):
+        self.dropbox_storage.save(name=self._get_target_file_name(), content=file_obj)
 
     def sync(self):
+        logger.debug("Generating backup file")
         tar_file = self.generate_backup()
-        self.dropbox_storage.save(name=self._get_target_file_name(), content=tar_file)
+        logger.debug("Writing backup file to storage")
+        self.write_to_storage(tar_file)
+        logger.debug("Backup file written to storage")
