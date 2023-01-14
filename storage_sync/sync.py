@@ -4,10 +4,9 @@ import tarfile
 
 from dbbackup import utils as dbbackup_utils
 from django.utils import timezone
+from storage_sync import settings as sync_settings
 from storages.backends.dropbox import DropBoxStorage
 from storages.backends.s3boto3 import S3Boto3Storage
-
-from storage_sync import settings as sync_settings
 
 logger = logging.getLogger(__name__)
 
