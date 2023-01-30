@@ -20,6 +20,6 @@ Extend django-dbbackup to backup s3 data
     2. `SYNC_S3_DIR` - The directory in the bucket to sync (default: `s3-source-dir/`)
     3. `SYNC_DROPBOX_DIR` - The directory in the dropbox the backup to be uploaded (default: `dropbox-dest-dir/`)
     4. `SYNC_TARGET_FILE_NAME` - The custom name of the file to be uploaded (default: `backup.tar.gz`)
-5. Run the management command - `python manage.py sync` (by default the management command will use the values defined
+5. Run the management command - `python manage.py s3backup` (by default the management command will use the values defined
    in the `settings.py`. But, it can be overridden by passing commandline args)
-    1. Run `python manage.py sync --help` to see all available options
+    1. Run `python manage.py s3backup --help` to see all available options
