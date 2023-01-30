@@ -13,7 +13,7 @@ setup(
     version="0.2",
     author="Jirka Schaefer",
     author_email="info@tschitschereengreen.com",
-    packages=find_packages(),
+    packages=["storage_sync", "storage_sync.management.commands"],
     include_package_data=True,
     url="https://github.com/patroqueeet/django-dbbackup-s3",
     license="Apach 2.0",
