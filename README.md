@@ -5,7 +5,7 @@ Extend django-dbbackup to backup s3 data
 ## Installation and configuration
 
 1. Create a new virtualenv and activate it
-2. Install the packages - `pip install -r requirements.txt -U`
+2. Install the packages - `pip install -r requirements.txt -U` and add `storage_sync` to INSTALLED_APPS in Django settings.
 3. Make sure you have set the settings variables for `django-storage` packages
     1. `AWS_ACCESS_KEY_ID`
     2. `AWS_SECRET_ACCESS_KEY`
