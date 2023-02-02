@@ -1,6 +1,6 @@
 import os
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -18,11 +18,12 @@ setup(
     url="https://github.com/patroqueeet/django-dbbackup-s3",
     license="Apach 2.0",
     install_requires=[
-        "Django>=3.2",
+        "Django>=3.2,<4.0",
         "django-storages[boto3,dropbox]~=1.13.1",
         "django-environ~=0.9.0",
         "django-dbbackup~=4.0.2",
     ],
+    extras_require={"tests": ["pytest>=3.7.0", "ipython", "pytest-django"],},
     description="Backup S3 files to tar.gz in DropBox",
     long_description=README,
     long_description_content_type="text/markdown",

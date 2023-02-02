@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-
 from storage_sync import settings as sync_settings
 from storage_sync.sync import SyncS3Dropbox
 
@@ -32,6 +31,13 @@ class Command(BaseCommand):
             type=str,
             default=sync_settings.TARGET_FILE_NAME,
         )
+        parser.add_argument(
+            "-z",
+            "--compress",
+            help="Compress the archive",
+            action="store_true",
+            default=False,
+        ),
 
     def handle(self, *args, **options):
         sync_obj = SyncS3Dropbox(
@@ -39,6 +45,7 @@ class Command(BaseCommand):
             dropbox_dir=options["dropbox_dir"],
             s3_bucket=options["s3_bucket"],
             target_file_name=options["target_file_name"],
+            compress=options["compress"],
         )
         sync_obj.sync()
         self.stdout.write(self.style.SUCCESS("Successfully uploaded backup to Dropbox"))

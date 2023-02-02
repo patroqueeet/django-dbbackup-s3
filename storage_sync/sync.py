@@ -18,11 +18,19 @@ class SyncS3Dropbox:
         dropbox_dir: str = sync_settings.DROPBOX_DIR,
         s3_bucket: str = sync_settings.S3_BUCKET,
         target_file_name: str = sync_settings.TARGET_FILE_NAME,
+        compress: bool = True,
+        filename=None,
+        servername=None,
+        content_type=None,
     ):
         self.s3_bucket = s3_bucket
         self.s3_dir = s3_dir
         self.dropbox_dir = dropbox_dir
         self.target_file_name = target_file_name
+        self.compress = compress
+        self.filename = filename
+        self.servername = servername
+        self.content_type = content_type
 
         self.s3_storage = S3Boto3Storage(bucket_name=self.s3_bucket)
         self.dropbox_storage = DropBoxStorage()
@@ -38,12 +46,18 @@ class SyncS3Dropbox:
             dirs.extend([os.path.join(path, subdir) for subdir in sub_dirs])
 
     def _get_target_file_name(self) -> str:
-        dt_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
-        return f"{self.dropbox_dir}{dt_str}-{self.target_file_name}"
+        if self.filename:
+            filename = self.filename
+        else:
+            extension = f"tar{'.gz' if self.compress else ''}"
+            filename = dbbackup_utils.filename_generate(
+                extension, servername=self.servername, content_type=self.content_type
+            )
+        return os.path.join(self.dropbox_dir, filename)
 
     def _create_tar_file_object(self):
         file_obj = dbbackup_utils.create_spooled_temporary_file()
-        mode = "w:gz"
+        mode = "w:gz" if self.compress else "w"
         tar_file = tarfile.open(name=self.target_file_name, fileobj=file_obj, mode=mode)
         for media_filename in self._get_recursive_files():
             tarinfo = tarfile.TarInfo(media_filename)

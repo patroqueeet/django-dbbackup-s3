@@ -2,6 +2,10 @@
 
 Extend django-dbbackup to backup s3 data
 
+# Dependencies
+
+- Django >=3.2, <4.0
+
 ## Installation and configuration
 
 1. Create a new virtualenv and activate it
@@ -23,3 +27,9 @@ Extend django-dbbackup to backup s3 data
 5. Run the management command - `python manage.py s3backup` (by default the management command will use the values defined
    in the `settings.py`. But, it can be overridden by passing commandline args)
     1. Run `python manage.py s3backup --help` to see all available options
+
+## Run tests with docker
+
+```
+docker run -it --rm -v "$(pwd):/app" python:3.7 bash -c "cd /app; pip install -e .[tests]; pytest"
+```
