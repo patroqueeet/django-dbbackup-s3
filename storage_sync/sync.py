@@ -81,4 +81,4 @@ class SyncS3Dropbox:
         logger.info("Writing backup file to storage")
         self.write_to_storage(tar_file)
         duration = timezone.now() - start
-        logger.info(f"Backup file written to storage {duration}")
+        logger.info("Backup file written to storage %s", duration)
