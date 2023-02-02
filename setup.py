@@ -10,7 +10,7 @@ with open(os.path.join(here, "README.md"), "r", encoding="utf-8") as ffile:
 setup(
     name="django-dbbackup-s3",
     python_requires=">=3.7.0",
-    version="0.4",
+    version="0.5",
     author="Jirka Schaefer",
     author_email="info@tschitschereengreen.com",
     packages=["storage_sync", "storage_sync.management.commands"],
