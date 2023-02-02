@@ -23,7 +23,7 @@ setup(
         "django-environ~=0.9.0",
         "django-dbbackup~=4.0.2",
     ],
-    extras_require={"tests": ["pytest>=3.7.0", "ipython", "pytest-django"],},
+    extras_require={"tests": ["pytest>=3.7.0", "ipython", "pytest-django", "pylint"],},
     description="Backup S3 files to tar.gz in DropBox",
     long_description=README,
     long_description_content_type="text/markdown",
