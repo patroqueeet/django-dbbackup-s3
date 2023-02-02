@@ -1,0 +1,2 @@
+INSTALLED_APPS = ["storage_sync"]
+AWS_STORAGE_BUCKET_NAME = ""
