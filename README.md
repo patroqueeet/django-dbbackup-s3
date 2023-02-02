@@ -1,6 +1,6 @@
 # django-dbbackup-s3
 
-Extend django-dbbackup to backup s3 data
+Extend django-dbbackup to backup s3 data to DropBox
 
 # Dependencies
 
@@ -26,7 +26,7 @@ Extend django-dbbackup to backup s3 data
     4. `SYNC_TARGET_FILE_NAME` - The custom name of the file to be uploaded (default: `backup.tar.gz`)
 5. Run the management command - `python manage.py s3backup` (by default the management command will use the values defined
    in the `settings.py`. But, it can be overridden by passing commandline args)
-    1. Run `python manage.py s3backup --help` to see all available options
+    1. Run `python manage.py s3backup --help` to see all available options (incl. Compression of backup)
 
 ## Run tests with docker
 
