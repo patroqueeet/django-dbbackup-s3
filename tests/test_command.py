@@ -4,7 +4,7 @@ from django.core.management import call_command
 
 
 class S3BackupCommandTestCase(TestCase):
-    @mock.patch("storage_sync.management.commands.s3backup.SyncS3Dropbox")
+    @mock.patch("storage_sync.management.commands.s3backup.SyncS3Backup")
     def test_call_command(self, sync_mock):
         call_command("s3backup")
         sync_mock.assert_called_with(
