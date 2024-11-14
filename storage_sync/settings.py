@@ -49,5 +49,5 @@ AWS_TEST_BUCKET_NAME = "darg-test"  # for dev and debug
 
 S3_BUCKET = getattr(settings, "SYNC_S3_BUCKET", settings.AWS_STORAGE_BUCKET_NAME)
 S3_DIR = getattr(settings, "SYNC_S3_DIR", "s3-source-dir/")
-TARGET_DIR = getattr(settings, "SYNC_DROPBOX_DIR", "dropbox-dest-dir/")
+TARGET_DIR = getattr(settings, "SYNC_TARGET_DIR", "dropbox-dest-dir/")
 TARGET_FILE_NAME = getattr(settings, "SYNC_TARGET_FILE_NAME", "backup.tar.gz")
