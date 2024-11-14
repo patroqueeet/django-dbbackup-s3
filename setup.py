@@ -10,7 +10,7 @@ with open(os.path.join(here, "README.md"), "r", encoding="utf-8") as ffile:
 setup(
     name="django-dbbackup-s3",
     python_requires=">=3.7.0",
-    version="0.5",
+    version="0.6",
     author="Jirka Schaefer",
     author_email="info@tschitschereengreen.com",
     packages=["storage_sync", "storage_sync.management.commands"],
@@ -23,8 +23,10 @@ setup(
         "django-environ>=0.9.0",
         "django-dbbackup>=4.0.2",
     ],
-    extras_require={"tests": ["pytest>=3.7.0", "ipython", "pytest-django", "pylint"],},
-    description="Backup S3 files to tar.gz in DropBox",
+    extras_require={
+        "tests": ["pytest>=3.7.0", "ipython", "pytest-django", "pylint"],
+    },
+    description="Backup S3 files to tar.gz in target storage",
     long_description=README,
     long_description_content_type="text/markdown",
     classifiers=[

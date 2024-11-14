@@ -3,19 +3,21 @@ import os
 import tarfile
 
 from dbbackup import utils as dbbackup_utils
+from django.conf import settings
 from django.utils import timezone
-from storage_sync import settings as sync_settings
-from storages.backends.dropbox import DropBoxStorage
+from django.utils.importlib import import_module
 from storages.backends.s3boto3 import S3Boto3Storage
+
+from storage_sync import settings as sync_settings
 
 logger = logging.getLogger(__name__)
 
 
-class SyncS3Dropbox:
+class SyncS3Backup:
     def __init__(
         self,
         s3_dir: str = sync_settings.S3_DIR,
-        dropbox_dir: str = sync_settings.DROPBOX_DIR,
+        target_dir: str = sync_settings.TARGET_DIR,
         s3_bucket: str = sync_settings.S3_BUCKET,
         target_file_name: str = sync_settings.TARGET_FILE_NAME,
         compress: bool = True,
@@ -25,15 +27,16 @@ class SyncS3Dropbox:
     ):
         self.s3_bucket = s3_bucket
         self.s3_dir = s3_dir
-        self.dropbox_dir = dropbox_dir
+        self.target_dir = target_dir
         self.target_file_name = target_file_name
         self.compress = compress
         self.filename = filename
         self.servername = servername
         self.content_type = content_type
 
+        storage_class = import_module(settings.DBBACKUP_STORAGE)
         self.s3_storage = S3Boto3Storage(bucket_name=self.s3_bucket)
-        self.dropbox_storage = DropBoxStorage()
+        self.target_storage = storage_class()
 
     def _get_recursive_files(self):
         path = self.s3_dir
@@ -53,7 +56,7 @@ class SyncS3Dropbox:
             filename = dbbackup_utils.filename_generate(
                 extension, servername=self.servername, content_type=self.content_type
             )
-        return os.path.join(self.dropbox_dir, filename)
+        return os.path.join(self.target_dir, filename)
 
     def _create_tar_file_object(self):
         file_obj = dbbackup_utils.create_spooled_temporary_file()
@@ -72,7 +75,7 @@ class SyncS3Dropbox:
         return self._create_tar_file_object()
 
     def write_to_storage(self, file_obj):
-        self.dropbox_storage.save(name=self._get_target_file_name(), content=file_obj)
+        self.target_storage.save(name=self._get_target_file_name(), content=file_obj)
 
     def sync(self):
         start = timezone.now()
