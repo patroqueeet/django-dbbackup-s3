@@ -5,7 +5,7 @@ import tarfile
 from dbbackup import utils as dbbackup_utils
 from django.conf import settings
 from django.utils import timezone
-from django.utils.importlib import import_module
+from django.utils.module_loading import import_string
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from storage_sync import settings as sync_settings
@@ -34,7 +34,7 @@ class SyncS3Backup:
         self.servername = servername
         self.content_type = content_type
 
-        storage_class = import_module(settings.DBBACKUP_STORAGE)
+        storage_class = import_string(settings.DBBACKUP_STORAGE)
         self.s3_storage = S3Boto3Storage(bucket_name=self.s3_bucket)
         self.target_storage = storage_class()
 
