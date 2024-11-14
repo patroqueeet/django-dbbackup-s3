@@ -18,12 +18,6 @@ DROPBOX_APP_KEY = env("DROPBOX_APP_KEY", default="")
 DROPBOX_APP_SECRET = env("DROPBOX_APP_SECRET", default="")
 
 #####################
-# DBBackup Settings #
-#####################
-
-DBBACKUP_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-
-#####################
 # Sync App Settings #
 #####################
 

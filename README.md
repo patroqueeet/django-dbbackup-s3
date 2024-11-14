@@ -19,6 +19,7 @@ Extend django-dbbackup to backup s3 data to DropBox
     6. `DROPBOX_OAUTH2_REFRESH_TOKEN`
     7. `DROPBOX_APP_KEY`
     8. `DROPBOX_APP_SECRET`
+    9. `DBBACKUP_STORAGE`
 4. Set the values for the following variables in `settings.py`
     1. `SYNC_S3_BUCKET` - The name of the bucket to sync (default: `settings.AWS_STORAGE_BUCKET_NAME`)
     2. `SYNC_S3_DIR` - The directory in the bucket to sync (default: `s3-source-dir/`)
