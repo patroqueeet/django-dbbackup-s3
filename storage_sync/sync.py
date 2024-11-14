@@ -34,7 +34,7 @@ class SyncS3Backup:
         self.content_type = content_type
 
         self.s3_storage = S3Boto3Storage(bucket_name=self.s3_bucket)
-        self.target_storage = get_storage()
+        self.target_storage = get_storage().storage  # use nested storage
 
     def _get_recursive_files(self):
         path = self.s3_dir
