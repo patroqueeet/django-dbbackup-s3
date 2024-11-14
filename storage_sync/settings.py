@@ -16,6 +16,13 @@ DROPBOX_OAUTH2_TOKEN = env("DROPBOX_OAUTH2_TOKEN", default="")
 DROPBOX_OAUTH2_REFRESH_TOKEN = env("DROPBOX_OAUTH2_REFRESH_TOKEN", default="")
 DROPBOX_APP_KEY = env("DROPBOX_APP_KEY", default="")
 DROPBOX_APP_SECRET = env("DROPBOX_APP_SECRET", default="")
+
+#####################
+# DBBackup Settings #
+#####################
+
+DBBACKUP_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+
 #####################
 # Sync App Settings #
 #####################
