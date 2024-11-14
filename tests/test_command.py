@@ -9,7 +9,7 @@ class S3BackupCommandTestCase(TestCase):
         call_command("s3backup")
         sync_mock.assert_called_with(
             compress=False,
-            dropbox_dir="dropbox-dest-dir/",
+            target_dir="dropbox-dest-dir/",
             s3_bucket="",
             s3_dir="s3-source-dir/",
             target_file_name="backup.tar.gz",
